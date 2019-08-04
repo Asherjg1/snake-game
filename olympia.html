@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+
+
+  <body>
+    <canvas id="myCanvas" width="600" height="300"></canvas>
+
+  </body>
+<script type="text/javascript">
+function olympicRings() {
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+ctx.strokeStyle = "red"
+ctx.lineWidth = 5
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(500, 50, 40, 0, 2 * Math.PI);
+  ctx.stroke();
+ctx.addColorStop(0.5, "black")
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(400, 50, 40, 0, 2 * Math.PI);
+ctx.stroke();
+}
+olympicRings()
+</script>
+
+
+</html>

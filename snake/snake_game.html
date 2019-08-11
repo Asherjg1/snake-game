@@ -9,6 +9,8 @@
 
 
   <script>
+  var x_food = null;
+  var y_food = null;
 function gridd(){
   var c = document.getElementById("canvas");
   var ctx = c.getContext("2d");
@@ -49,7 +51,7 @@ ctx.fill();
 ctx.stroke();
 return {canvas_element: ctx, positions: positions}
 }
-
+randomFood()
 function clearSnake(snake){
  var first = snake.positions[0]
  var second = snake.positions[1]
@@ -58,6 +60,45 @@ function clearSnake(snake){
  var fifth = snake.positions[4]
  snake.canvas_element.clearRect(first, second, third, fourth, fifth);
 }
+function snakeAtBorder(positions){
+
+if (positions[1]>=400||positions[1]<=0 || positions[0]>=400|| positions[0]<=0){
+  alert("you lost your chance of free yeezys")
+}
+
+}
+
+function randomFood (){
+  var c = document.getElementById("canvas");
+  var ctx = c.getContext("2d");
+  x_food = Math.floor(Math.random() * 370 + 20);
+  y_food = Math.floor(Math.random() * 370 + 20);
+  ctx.beginPath();
+  ctx.arc(x_food,y_food,5,0,2*Math.PI)
+}
+
+
+function snakeAtFood(positions){
+debugger
+if(positions[1]===y_food&&positions[0]===x_food){
+  alert("Here is the food")
+
+}
+return
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 let snake = initSnake();
 document.onkeydown = function (e) {
@@ -65,21 +106,29 @@ document.onkeydown = function (e) {
         case 'ArrowUp':
         // up arrow
             snake.positions[1] =  snake.positions[1] - 1
+            snakeAtFood(snake.positions)
+            snakeAtBorder(snake.positions)
             initSnake(snake.positions)
             break;
         case 'ArrowDown':
             // down arrow
+            snakeAtFood(snake.positions)
             snake.positions[1] =  snake.positions[1] + 1
+            snakeAtBorder(snake.positions)
             initSnake(snake.positions)
             break;
         case 'ArrowLeft':
             // left arrow
-            snake.positions[0] =  snake.positions[1] - 1
+            snakeAtFood(snake.positions)
+            snake.positions[0] =  snake.positions[0] - 1
+            snakeAtBorder(snake.positions)
             initSnake(snake.positions)
             break;
         case 'ArrowRight':
             // right arrow
-            snake.positions[0] =  snake.positions[1] + 1
+            snakeAtFood(snake.positions)
+            snake.positions[0] =  snake.positions[0] + 1
+            snakeAtBorder(snake.positions)
             initSnake(snake.positions)
     }
   };

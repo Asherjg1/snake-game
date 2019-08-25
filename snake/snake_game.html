@@ -3,6 +3,10 @@
 
 <body>
 <canvas id="canvas" width="400" height="400"></canvas>
+<div id='score' width='100' height="100">
+0
+
+</div>
 </body>
 
 
@@ -11,9 +15,13 @@
   <script>
   var x_food = null;
   var y_food = null;
-function gridd(){
   var c = document.getElementById("canvas");
   var ctx = c.getContext("2d");
+  var counter = 0;
+  x_food = Math.floor(Math.random() * 370 + 20);
+  y_food = Math.floor(Math.random() * 370 + 20);
+var snakeParts={}
+function gridd(){
   ctx.stroke();
   ctx.moveTo(0,0)
   ctx.lineTo(400,0)
@@ -33,8 +41,6 @@ function gridd(){
 }
 gridd();
 function initSnake(positions=[200,200,10,10,45,45]) {
-  var c = document.getElementById("canvas");
-  var ctx = c.getContext("2d");
   ctx.stroke()
   if (positions.length === 0 ){
     ctx.rect(200,200,10,10,45,45);
@@ -51,14 +57,17 @@ ctx.fill();
 ctx.stroke();
 return {canvas_element: ctx, positions: positions}
 }
-randomFood()
+displayRandomFood()
 function clearSnake(snake){
  var first = snake.positions[0]
  var second = snake.positions[1]
  var third = snake.positions[2]
  var fourth = snake.positions[3]
  var fifth = snake.positions[4]
- snake.canvas_element.clearRect(first, second, third, fourth, fifth);
+ ctx.clearRect(0, 0, 400, 400);
+ ctx.beginPath();
+ gridd()
+ displayRandomFood()
 }
 function snakeAtBorder(positions){
 
@@ -68,31 +77,45 @@ if (positions[1]>=400||positions[1]<=0 || positions[0]>=400|| positions[0]<=0){
 
 }
 
-function randomFood (){
+function displayRandomFood (){
   var c = document.getElementById("canvas");
   var ctx = c.getContext("2d");
-  x_food = Math.floor(Math.random() * 370 + 20);
-  y_food = Math.floor(Math.random() * 370 + 20);
   ctx.beginPath();
   ctx.arc(x_food,y_food,5,0,2*Math.PI)
 }
 
 
 function snakeAtFood(positions){
-debugger
-if(positions[1]===y_food&&positions[0]===x_food){
-  alert("Here is the food")
+  snake_y_distance = Array.from(Array(15).keys(), n => n + snake.positions[1])
+  snake_x_distance = Array.from(Array(15).keys(), n => n + snake.positions[0])
 
+
+if(snake_y_distance.includes(y_food)&&snake_x_distance.includes(x_food)){
+  x_food = Math.floor(Math.random() * 370 + 20);
+  y_food = Math.floor(Math.random() * 370 + 20);
+
+  displayRandomFood();
+  counter=counter+1
+  updateScore();
 }
 return
 }
 
 
+function addSnake(){
+
+  for (var i = 0; i < array.length; i++) {
+    array[i]
+  }
+}
 
 
 
 
 
+function updateScore(){
+  document.getElementById('score').textContent = counter;
+}
 
 
 
@@ -105,30 +128,34 @@ document.onkeydown = function (e) {
     switch (e.key) {
         case 'ArrowUp':
         // up arrow
-            snake.positions[1] =  snake.positions[1] - 1
+            snake.positions[1] =  snake.positions[1] - 4
             snakeAtFood(snake.positions)
             snakeAtBorder(snake.positions)
+            clearSnake(snake)
             initSnake(snake.positions)
             break;
         case 'ArrowDown':
             // down arrow
             snakeAtFood(snake.positions)
-            snake.positions[1] =  snake.positions[1] + 1
+            snake.positions[1] =  snake.positions[1] + 4
             snakeAtBorder(snake.positions)
+            clearSnake(snake)
             initSnake(snake.positions)
             break;
         case 'ArrowLeft':
             // left arrow
             snakeAtFood(snake.positions)
-            snake.positions[0] =  snake.positions[0] - 1
+            snake.positions[0] =  snake.positions[0] - 4
             snakeAtBorder(snake.positions)
+            clearSnake(snake)
             initSnake(snake.positions)
             break;
         case 'ArrowRight':
             // right arrow
             snakeAtFood(snake.positions)
-            snake.positions[0] =  snake.positions[0] + 1
+            snake.positions[0] =  snake.positions[0] + 4
             snakeAtBorder(snake.positions)
+            clearSnake(snake)
             initSnake(snake.positions)
     }
   };
